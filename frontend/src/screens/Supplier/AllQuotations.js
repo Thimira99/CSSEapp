@@ -35,7 +35,7 @@ export default class AllQuotationsScreen extends React.Component {
    * @memberof AllQuotationsScreen
    */
   getQuotations = () => {
-    var url = 'http://10.0.2.2:8080/quotation/';
+    var url = 'http://10.0.2.2:8080/quotation';
     axios
       .get(url)
       .then(response => {
