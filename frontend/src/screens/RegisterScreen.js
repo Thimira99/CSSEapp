@@ -148,8 +148,23 @@ export default class RegisterScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <Text
+            style={[
+              styles.topic,
+              {
+                color: '#0C1446',
+                marginBottom: 10,
+                fontSize: 26,
+                fontWeight: 'bold',
+              },
+            ]}>
+            Registration
+          </Text>
+          <Image
+            style={styles.image}
+            source={require('../../images/registration.png')}
+          />
           <View style={styles.card}>
-            {/* User ID Text Input */}
             <View style={styles.inputView}>
               <TextInput
                 value={this.state.userId}
@@ -230,28 +245,24 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     width: 350,
     borderRadius: 10,
-    height: 600,
-    backgroundColor: '#a88b32',
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
-    // border-top-right-radius: 10px;
-    // border-top-left-radius: 10px;
-    // border-bottom-right-radius: 10px;
-    // border-bottom-left-radius: 10px;
+    backgroundColor: '#cfcccc',
+    height: 650,
+    borderEndColor: '#000000',
   },
   card: {
-    marginTop: 70,
+    marginTop: 5,
     width: 350,
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
-    width: 100,
-    height: 100,
-    marginBottom: 35,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
+  },
+  topic: {
+    marginLeft: 100,
+    marginTop: 5,
   },
   inputView: {
     width: '70%',
@@ -270,7 +281,7 @@ const styles = StyleSheet.create({
   },
   registerBtn: {
     width: '60%',
-    backgroundColor: Colors.yellow,
+    backgroundColor: '#BB803C',
     height: 45,
     borderRadius: 25,
     alignSelf: 'center',

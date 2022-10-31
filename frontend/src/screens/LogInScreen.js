@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.yellow,
+    backgroundColor: '#BB803C',
     elevation: 2,
   },
   loginText: {
