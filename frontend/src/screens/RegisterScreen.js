@@ -100,6 +100,7 @@ export default class RegisterScreen extends React.Component {
       email: this.state.email,
       password: this.state.password,
       role: this.state.role,
+      contactNumber: this.state.contactNumber,
     };
     axios
       .post(url, data)
