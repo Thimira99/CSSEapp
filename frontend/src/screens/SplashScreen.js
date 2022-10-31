@@ -11,7 +11,11 @@ export default class SplashScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Purchase Order</Text>
+        <Text style={styles.title}>Welcome To this App</Text>
+        <Image
+          style={styles.Image}
+          source={require('../../images/dashboard.png')}
+        />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate(Strings.screens.LogInScreen)
@@ -26,10 +30,6 @@ export default class SplashScreen extends React.Component {
           style={[styles.loginBtn, {marginTop: 10}]}>
           <Text style={styles.loginTxt}>Register Now</Text>
         </TouchableOpacity>
-        <Image
-          style={styles.backImage}
-          source={require('../../images/app.png')}
-        />
       </View>
     );
   }
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
-    backgroundColor: Colors.purple,
+
+    backgroundColor: '#808080',
   },
   title: {
     fontSize: 25,
@@ -50,12 +51,12 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   loginBtn: {
-    backgroundColor: Colors.yellow,
+    backgroundColor: '#BB803C',
     width: 200,
     height: 50,
     justifyContent: 'center',
     margin: 10,
-    marginTop: '35%',
+    marginTop: '20%',
     borderRadius: 50,
   },
   loginTxt: {
@@ -64,10 +65,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  backImage: {
+
+  Image: {
     width: '100%',
     height: '50%',
     resizeMode: 'contain',
-    marginTop: '30%',
+    borderRadius: 10,
   },
 });

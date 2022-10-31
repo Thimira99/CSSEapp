@@ -7,7 +7,6 @@ import {
   View,
   Image,
   TextInput,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import {Strings, Colors} from '../constants';
@@ -79,7 +78,7 @@ export default class LogInScreen extends React.Component {
       .get(url)
       .then(response => {
         //display details
-        console.log(response.data.data[0]);
+        console.log(response.data.data[0].userId);
         this.setState({loginDetails: response.data.data[0]});
 
         const enteredEmail = this.state.email;
@@ -90,15 +89,15 @@ export default class LogInScreen extends React.Component {
         if (enteredEmail === validEmail && enteredPassword === validPassword) {
           const role = this.state.loginDetails.role;
 
-          if (role === 'siteManger') {
+          if (role === 'site manager') {
             this.props.navigation.navigate(
               Strings.screens.SiteDashboardScreen,
-              {user_details: this.state.userId},
+              {userId: response.data.data[0].userId},
             );
           } else if (role === 'supplier') {
             this.props.navigation.navigate(
               Strings.screens.SupplierDashboardScreen,
-              {user_details: this.state.userId},
+              {userId: this.state.userId},
             );
           }
         } else {
@@ -134,17 +133,17 @@ export default class LogInScreen extends React.Component {
           <TextInput
             value={this.state.email}
             style={styles.TextInput}
-            placeholder={Strings.login_textInput.email}
-            placeholderTextColor={Colors.textInput}
+            placeholder={'Enter Email'}
+            placeholderTextColor={'#858277'}
             onChangeText={this.onChangeEmail}
           />
         </View>
         <View style={styles.inputView}>
           <TextInput
             value={this.state.password}
-            style={styles.TextInput}
-            placeholder={Strings.login_textInput.password}
-            placeholderTextColor={Colors.textInput}
+            style={styles.passwordInput}
+            placeholder={'Enter Password'}
+            placeholderTextColor={'#858277'}
             secureTextEntry={true}
             onChangeText={this.onChangePassword}
           />
@@ -182,10 +181,12 @@ const styles = StyleSheet.create({
   TextInput: {
     height: 50,
     flex: 1,
-    padding: 10,
-    marginLeft: 15,
     color: Colors.black,
   },
+  passwordInput: {
+    marginLeft: 24,
+  },
+
   loginBtn: {
     width: '60%',
     borderRadius: 25,
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   loginText: {
-    color: Colors.black,
+    color: '#000000',
     fontSize: 15,
     fontWeight: 'bold',
   },
