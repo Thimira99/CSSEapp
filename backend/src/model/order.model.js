@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
 			material: {
 				type: String,
 			},
-			quatity: {
+			quantity: {
 				type: String,
 			},
 		},

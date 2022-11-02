@@ -23,7 +23,12 @@ const initialState = {
   status: false,
   open: false,
   value: null,
-  item: [],
+  itemObj: [
+    {
+      material: '',
+      quantity: '',
+    },
+  ],
   items: [
     {label: 'Cement', value: 'cement'},
     {label: 'Timber', value: 'timber'},
@@ -157,6 +162,10 @@ export default class NewOrderScreen extends React.Component {
     this.setState({deadline: e});
   };
 
+  addItems = (quantity, item) => {
+    console.log('aaaaaaaaaaaa' + quantity, item);
+  };
+
   /**
    * @description This method pass the details and navigate to the summary screen
    * @param {Object} e
@@ -200,27 +209,30 @@ export default class NewOrderScreen extends React.Component {
               inputStyle={styles.input}
               onChangeText={this.onChangeCompanyName}
             />
-            <View style={styles.addItems}>
-              {/* <DropDownPicker
-                style={styles.dropDownStyle}
-                textStyle={styles.dropDownText}
-                labelStyle={styles.dropDownLabel}
-                open={open}
-                value={this.state.material}
-                items={items}
-                setOpen={this.setOpen}
-                setValue={this.onChangeMaterial}
-                setItems={this.setItems}
-              /> */}
-              <Input
-                style={styles.quantity}
-                value={this.state.quantity}
-                placeholder={'Enter the Quantity'}
-                inputContainerStyle={styles.inputContainer}
-                inputStyle={styles.input}
-                onChangeText={this.onChangeQuantity}
-              />
-            </View>
+            <DropDownPicker
+              style={styles.dropDownStyle}
+              textStyle={styles.dropDownText}
+              labelStyle={styles.dropDownLabel}
+              open={open}
+              value={this.state.material}
+              items={items}
+              setOpen={this.setOpen}
+              setValue={this.onChangeMaterial}
+              setItems={this.setItems}
+            />
+            <Input
+              value={this.state.quantity}
+              placeholder={'Enter the Quantity'}
+              inputContainerStyle={styles.inputContainer}
+              inputStyle={styles.input}
+              onChangeText={this.onChangeQuantity}
+            />
+            <TouchableOpacity
+              onPress={this.addItems(this.state.quantity, this.state.material)}
+              style={styles.btn}
+              activeOpacity={0.5}>
+              <Text style={styles.btnTxt}>Add Item</Text>
+            </TouchableOpacity>
             <Input
               value={this.state.address}
               placeholder={'Enter the delevery Address'}
@@ -266,9 +278,6 @@ const styles = StyleSheet.create({
     // borderRadius: 15,
     elevation: 5,
   },
-  quantity: {
-    width: 20,
-  },
   label: {
     fontWeight: 'normal',
     color: Colors.inputLabel,
@@ -288,7 +297,6 @@ const styles = StyleSheet.create({
   dropDownStyle: {
     borderColor: 'gray',
     marginBottom: 20,
-    width: 100,
   },
   dropDownText: {
     fontSize: 15,
