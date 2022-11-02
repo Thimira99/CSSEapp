@@ -8,17 +8,14 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Image,
 } from 'react-native';
 import {Input} from 'react-native-elements';
-import {Colors} from '../../constants';
+import {Toast} from 'toastify-react-native';
+import {Colors, Strings} from '../../constants';
 
 const initialState = {
   orderId: '',
-  material: '',
-  quantity: '',
-  unitCost: '',
-  totalPrice: '',
+  amount: '',
   status: false,
 };
 
@@ -32,6 +29,7 @@ export default class NewInvoiceScreen extends React.Component {
 
     this.state = {
       orders: [],
+      details: [],
       initialState,
     };
 
@@ -48,59 +46,24 @@ export default class NewInvoiceScreen extends React.Component {
     this.getDetails();
   };
 
-  getDetails = () => {
-    const {navigation} = this.props;
-    const param = navigation.getParam('order_id');
-    this.setState({
-      orderId: param.orderId,
-      material: param.material,
-      quantity: param.quantity,
-    });
-  };
-
-  /**
-   * @description This method changes the value of order id
-   * @param {Object} e
-   * @memberof NewInvoiceScreen
-   */
   onChangeOrderId = e => {
     this.setState({orderId: e});
   };
 
-  /**
-   * @description This method changes the value of material
-   * @param {Object} e
-   * @memberof NewInvoiceScreen
-   */
   onChangeMaterial = e => {
     this.setState({material: e});
   };
 
-  /**
-   * @description This method changes the value of quantity
-   * @param {Object} e
-   * @memberof NewInvoiceScreen
-   */
   onChangeQuantity = e => {
     this.setState({quantity: e});
   };
 
-  /**
-   * @description This method changes the value of unitCost
-   * @param {Object} e
-   * @memberof NewInvoiceScreen
-   */
   onChangeUnitCost = e => {
     this.setState({unitCost: e});
   };
 
-  /**
-   * @description This method changes the value of totalPrice
-   * @param {Object} e
-   * @memberof NewInvoiceScreen
-   */
   onChangeTotalCost = e => {
-    this.setState({totalPrice: e});
+    this.setState({amount: e});
   };
 
   componentDidMount = () => {
@@ -120,7 +83,10 @@ export default class NewInvoiceScreen extends React.Component {
       .get(url)
       .then(response => {
         console.log(response.data.data);
-        this.setState({orders: response.data.data});
+        this.setState({
+          orders: response.data.data,
+          details: response.data.data.item,
+        });
       })
       .catch(error => {
         console.log(error);
@@ -128,63 +94,66 @@ export default class NewInvoiceScreen extends React.Component {
       });
   };
 
-  /**
-   * @description This method creates invoice
-   * @memberof NewInvoiceScreen
-   */
   addInvoice = () => {
     var url = 'http://10.0.2.2:8080/invoice/createInvoice';
     const invoiceDetails = {
       orderId: this.state.orderId,
-      material: this.state.material,
-      quantity: this.state.quantity,
-      unitCost: this.state.unitCost,
-      totalPrice: this.state.totalPrice,
-      status: false,
+      amount: this.state.amount,
     };
-    console.log('Invoice details', invoiceDetails);
     axios
       .post(url, invoiceDetails)
       .then(response => {
-        this.setState({
-          invoiceDetails: response.data,
-        });
-        Alert.alert(
-          'Success ✔',
-          'Your invoice has been placed successfully!!',
-          [
-            {
-              text: 'OK',
-              onPress: () =>
-                this.props.navigation.navigate('SupplierDashboardScreen'),
-            },
-          ],
-          {cancelable: false},
-        );
+        Toast.info('Successfully added');
+        this.props.navigation.navigate(Strings.screens.AllInvoicesScreen);
       })
       .catch(error => {
         console.log(error);
-        Alert.alert(
-          'Error ❌',
-          'Your invoice has been placed unsuccessfully!!',
-          [
-            {
-              text: 'Check Again?',
-              onPress: () => this.props.navigation.navigate('NewInvoiceScreen'),
-            },
-          ],
-          {cancelable: false},
-        );
+        Toast.error('Not added Successfully');
       });
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.backImage}
-          source={require('../../../images/invoices.png')}
-        />
+        <View style={styles.card}>
+          <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>
+            Order Details
+          </Text>
+          <View style={styles.Cname}>
+            <Text style={{marginLeft: 10}}>Company Name</Text>
+            <Text style={{marginLeft: 30}}>:</Text>
+            <Text style={{marginLeft: 50}}>
+              {this.state.orders.companyName}
+            </Text>
+          </View>
+          <View style={styles.Aname}>
+            <Text style={{marginLeft: 10}}>Address</Text>
+            <Text style={{marginLeft: 30}}>:</Text>
+            <Text style={{marginLeft: 50}}>{this.state.orders.address}</Text>
+          </View>
+          <View style={styles.Aname}>
+            <Text style={{marginLeft: 10}}>Materials</Text>
+            <Text style={{marginLeft: 30}}>:</Text>
+            <Text style={{marginLeft: 50}}>
+              {this.state.details.map(value => (
+                <Text>{value.material} ,</Text>
+              ))}
+            </Text>
+          </View>
+          <View style={styles.Aname}>
+            <Text style={{marginLeft: 10}}>quantity</Text>
+            <Text style={{marginLeft: 30}}>:</Text>
+            <Text style={{marginLeft: 50}}>
+              {this.state.details.map(value => (
+                <Text>{value.quantity} ,</Text>
+              ))}
+            </Text>
+          </View>
+        </View>
+
+        <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>
+          Add Invoice
+        </Text>
 
         <View style={styles.form}>
           <ScrollView>
@@ -195,48 +164,15 @@ export default class NewInvoiceScreen extends React.Component {
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.input}
               onChangeText={this.onChangeOrderId}
-              // placeholder='Enter Site Name'
             />
             <Input
-              value={this.state.material}
-              label="Material"
-              labelStyle={styles.label}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.input}
-              onChangeText={this.onChangeMaterial}
-              // placeholder='Enter Site Name'
-            />
-            <Input
-              value={this.state.quantity}
-              label="Quantity"
-              labelStyle={styles.label}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.input}
-              onChangeText={this.onChangeQuantity}
-            />
-            <Input
-              value={this.state.unitCost}
-              label="Unit Cost (Rs:)"
-              labelStyle={styles.label}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.input}
-              onChangeText={this.onChangeUnitCost}
-            />
-            <Input
-              value={this.state.totalPrice}
+              value={this.state.amount}
               label="Total Cost (Rs:)"
               labelStyle={styles.label}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.input}
               onChangeText={this.onChangeTotalCost}
             />
-            {/* <Input
-                            label="User ID"
-                            labelStyle={styles.label}
-                            inputContainerStyle={styles.inputContainer}
-                            inputStyle={styles.input}
-                            onChangeText={this.onChangeDeadline}
-                        /> */}
           </ScrollView>
         </View>
         <View style={styles.column}>
@@ -290,6 +226,14 @@ const styles = StyleSheet.create({
   cardColumn: {
     flex: 1,
     flexDirection: 'column',
+  },
+  Cname: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  Aname: {
+    flex: 1,
+    flexDirection: 'row',
   },
   txt: {
     color: 'gray',

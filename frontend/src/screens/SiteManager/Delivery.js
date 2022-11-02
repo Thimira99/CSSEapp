@@ -28,10 +28,6 @@ export default class AllDeliveryScreen extends React.Component {
     this.getDelivery();
   };
 
-  /**
-   * @description This method get deliveries
-   * @memberof AllDeliveryScreen
-   */
   getDelivery = () => {
     var url = 'http://10.0.2.2:8080/delivery';
     axios
@@ -66,7 +62,6 @@ export default class AllDeliveryScreen extends React.Component {
                   <View style={styles.cardRow}>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={styles.txt}>Mgr. ID</Text> */}
                       <Text style={styles.txt}>Delivery ID</Text>
                       <Text style={styles.txt}>Order ID</Text>
                       <Text style={[styles.txt, {width: 200}]}>
@@ -79,17 +74,14 @@ export default class AllDeliveryScreen extends React.Component {
                     </View>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
                     </View>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={[styles.txt, { textAlign: 'left' }]}>{item.userId}</Text> */}
                       <Text style={[styles.txt, {textAlign: 'left'}]}>
                         #{item.deliveryId}
                       </Text>
@@ -132,14 +124,6 @@ export default class AllDeliveryScreen extends React.Component {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate(
-                        Strings.screens.NewPaymentScreen,
-                      )
-                    }>
-                    <Text style={styles.invoice}>Make A Payment</Text>
-                  </TouchableOpacity>
                 </View>
               );
             }}

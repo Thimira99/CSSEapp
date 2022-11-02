@@ -137,7 +137,6 @@ export default class RegisterScreen extends React.Component {
       .catch(error => {
         console.log(error);
         Alert.alert(
-          'Error ❌',
           'You have been registered unsuccessfully!!',
           [{text: 'Check Again?'}],
           {cancelable: false},

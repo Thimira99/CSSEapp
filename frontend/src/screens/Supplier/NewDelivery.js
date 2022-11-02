@@ -137,10 +137,13 @@ export default class NewDeliveryScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.backImage}
-          source={require('../../../images/delivery.png')}
-        />
+        <View style={styles.header}>
+          <Text style={styles.headerTxt}>New Delivery</Text>
+          <Image
+            style={{width: 60, height: 60, marginLeft: 90, marginTop: 15}}
+            source={require('../../../images/delivery.png')}
+          />
+        </View>
         <View style={styles.form}>
           <ScrollView>
             <Input
@@ -207,6 +210,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F1F5FF',
   },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  headerTxt: {
+    marginTop: 30,
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
   backImage: {
     width: 100,
     height: 100,
@@ -217,7 +229,7 @@ const styles = StyleSheet.create({
     width: 330,
     backgroundColor: Colors.white,
     margin: 5,
-    marginTop: 0,
+    marginTop: -400,
     padding: 20,
     borderRadius: 15,
     elevation: 5,

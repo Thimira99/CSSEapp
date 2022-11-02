@@ -151,8 +151,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 15,
     elevation: 5,
-    // borderWidth: 1,
-    // borderColor: '#3F5E98',
   },
   cardRow: {
     flex: 1,

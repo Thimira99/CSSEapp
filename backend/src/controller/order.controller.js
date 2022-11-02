@@ -53,10 +53,10 @@ const getOrders = async (req, res) => {
 
 //getSupplierOrder
 const getSupplierOrder = async (req, res) => {
-	console.log(req.params.id);
 	if (req.params.id) {
-		await Order.find({ orderId: req.params.id })
+		await Order.findOne({ orderId: req.params.id })
 			.then((data) => {
+				console.log(data);
 				res.status(200).send({ data: data });
 			})
 			.catch((error) => {

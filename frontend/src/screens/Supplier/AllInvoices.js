@@ -65,19 +65,11 @@ export default class AllInvoicesScreen extends React.Component {
                     {/* Column */}
                     <View style={styles.cardColumn}>
                       <Text style={styles.txt}>Order ID</Text>
-                      {/* <Text style={styles.txt}>Site Name</Text> */}
-                      {/* <Text style={styles.txt}>Location</Text> */}
-                      <Text style={styles.txt}>Material</Text>
-                      <Text style={styles.txt}>Quantity</Text>
-                      <Text style={styles.txt}>Unit Cost</Text>
-                      <Text style={styles.txt}>Total Cost</Text>
+                      <Text style={styles.txt}>Amount</Text>
+                      <Text style={styles.txt}>Date</Text>
                     </View>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
@@ -97,27 +89,20 @@ export default class AllInvoicesScreen extends React.Component {
                         ]}>
                         #{item.orderId}
                       </Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'left' }]}>{item.siteName}</Text> */}
-                      {/* <Text style={[styles.txt, { textAlign: 'left' }]}>{item.siteLocation}</Text> */}
                       <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        {item.material}
+                        {item.amount}
                       </Text>
                       <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        {item.quantity}
+                        {item.createdAt}
                       </Text>
-                      <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        Rs.{item.unitCost}
-                      </Text>
-                      <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        Rs.{item.totalPrice}
-                      </Text>
-                      <TouchableOpacity>
-                        <Text
-                          style={[
-                            item.status ? styles.approve : styles.decline,
-                          ]}>
-                          {item.status ? Strings.approved : Strings.declined}
-                        </Text>
+                      <TouchableOpacity
+                        style={styles.Dbtn}
+                        onPress={() =>
+                          this.props.navigation.navigate(
+                            Strings.screens.NewDeliveryScreen,
+                          )
+                        }>
+                        <Text>Add Delivery</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -224,6 +209,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#01949A',
     borderRadius: 20,
     // justifyContent:'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  Dbtn: {
+    elevation: 5,
+    margin: 10,
+    padding: 3,
+    width: 160,
+    marginLeft: -140,
+    marginRight: 5,
+    backgroundColor: '#01949A',
+    borderRadius: 20,
     alignSelf: 'center',
     alignItems: 'center',
   },

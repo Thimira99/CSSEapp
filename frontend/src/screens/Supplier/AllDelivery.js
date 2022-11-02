@@ -66,7 +66,6 @@ export default class DeliveryScreen extends React.Component {
                   <View style={styles.cardRow}>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={styles.txt}>Mgr. ID</Text> */}
                       <Text style={[styles.txt, {width: 200}]}>
                         Delivery ID
                       </Text>
@@ -81,17 +80,14 @@ export default class DeliveryScreen extends React.Component {
                     </View>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
                     </View>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      {/* <Text style={[styles.txt, { textAlign: 'left' }]}>{item.userId}</Text> */}
                       <Text style={[styles.txt, {textAlign: 'left'}]}>
                         #{item.deliveryId}
                       </Text>
@@ -120,31 +116,8 @@ export default class DeliveryScreen extends React.Component {
                         style={[styles.txt, {textAlign: 'left', width: 200}]}>
                         Rs.{item.amount}/=
                       </Text>
-                      {/* <TouchableOpacity >
-                                                <Text
-                                                    style={[item.status === Strings.delivered ? styles.delivered :
-                                                        item.status === Strings.onDelivery ? styles.onDelivery : styles.processing]}>
-                                                    {item.status}
-                                                </Text>
-                                            </TouchableOpacity> */}
                     </View>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity>
-                      <Text style={styles.delivered}>Delivered</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Text style={styles.onDelivery}>On Delivery</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Text style={styles.processing}>Processing</Text>
-                    </TouchableOpacity>
-                  </View>
-                  {/* <TouchableOpacity
-                                        onPress={() => this.props.navigation.navigate('NewPaymentScreen')}
-                                    >
-                                        <Text style={styles.invoice}>Make A Payment</Text>
-                                    </TouchableOpacity> */}
                 </View>
               );
             }}
@@ -180,15 +153,12 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 15,
     elevation: 5,
-    // borderWidth: 1,
-    // borderColor: '#3F5E98',
   },
   cardRow: {
     flex: 1,
     flexDirection: 'row',
     padding: 5,
     marginTop: 20,
-    // borderWidth: 2
   },
   cardColumn: {
     flex: 1,
@@ -201,7 +171,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   onDelivery: {
-    // width: 100,
     color: Colors.white,
     fontSize: 14,
     textAlign: 'center',
@@ -211,7 +180,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   delivered: {
-    // width: 100,
     color: Colors.white,
     fontSize: 14,
     textAlign: 'center',
@@ -221,7 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   processing: {
-    // width: 100,
     color: Colors.white,
     fontSize: 14,
     textAlign: 'center',
