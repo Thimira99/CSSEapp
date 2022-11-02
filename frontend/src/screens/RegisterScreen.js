@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   },
   registerBtn: {
     width: '60%',
-    backgroundColor: '#BB803C',
+    backgroundColor: '#F1C40F',
     height: 45,
     borderRadius: 25,
     alignSelf: 'center',

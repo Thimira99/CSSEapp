@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   loginBtn: {
-    backgroundColor: '#BB803C',
+    backgroundColor: '#F1C40F',
     width: 200,
     height: 50,
     justifyContent: 'center',

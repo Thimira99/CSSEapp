@@ -36,7 +36,6 @@ export default class AllOrdersScreen extends React.Component {
   getOrders = () => {
     const {navigation} = this.props;
     const param = navigation.getParam('userId');
-    console.log(param + 'oooooooooooooooooooo');
     this.setState({
       data: param,
     });

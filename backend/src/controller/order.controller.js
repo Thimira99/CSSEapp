@@ -29,7 +29,7 @@ const getAllOrders = async (req, res) => {
 // Get orders by user id
 const getOrders = async (req, res) => {
 	console.log(req.params.id);
-	if (req.params && req.params.id) {
+	if (req.params.id) {
 		await Order.find({ userId: req.params.id })
 			.then((data) => {
 				res.status(200).send({ data: data });

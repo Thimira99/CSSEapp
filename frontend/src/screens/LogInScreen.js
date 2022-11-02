@@ -92,12 +92,15 @@ export default class LogInScreen extends React.Component {
           if (role === 'site manager') {
             this.props.navigation.navigate(
               Strings.screens.SiteDashboardScreen,
-              {userId: response.data.data[0].userId},
+              {
+                userId: response.data.data[0].userId,
+                name: response.data.data[0].name,
+              },
             );
           } else if (role === 'supplier') {
             this.props.navigation.navigate(
               Strings.screens.SupplierDashboardScreen,
-              {userId: this.state.userId},
+              {userId: this.state.userId, name: response.data.data[0].name},
             );
           }
         } else {
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#BB803C',
+    backgroundColor: '#F1C40F',
     elevation: 2,
   },
   loginText: {
