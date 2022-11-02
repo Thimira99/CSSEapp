@@ -5,14 +5,16 @@ const orderSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	material: {
-		type: String,
-		required: true,
-	},
-	quantity: {
-		type: String,
-		required: true,
-	},
+	item: [
+		{
+			material: {
+				type: String,
+			},
+			quatity: {
+				type: String,
+			},
+		},
+	],
 	address: {
 		type: String,
 		required: true,
@@ -24,9 +26,6 @@ const orderSchema = new mongoose.Schema({
 		type: String,
 	},
 	companyName: {
-		type: String,
-	},
-	total: {
 		type: String,
 	},
 });

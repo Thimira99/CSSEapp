@@ -18,21 +18,20 @@ const initialState = {
   siteLocation: '',
   address: '',
   companyName: '',
-  total: 0,
   material: null,
-  quantity: 0,
   deadline: '',
   status: false,
   open: false,
   value: null,
+  item: [],
   items: [
-    {label: 'Cement', value: 'cement', price: 1200},
-    {label: 'Timber', value: 'timber', price: 1000},
-    {label: 'Sand', value: 'sand', price: 10000},
-    {label: 'Wood', value: 'wood', price: 5000},
-    {label: 'Steel', value: 'steel', price: 3000},
-    {label: 'Glass', value: 'glass', price: 5000},
-    {label: 'Bricks', value: 'bricks', price: 4000},
+    {label: 'Cement', value: 'cement'},
+    {label: 'Timber', value: 'timber'},
+    {label: 'Sand', value: 'sand'},
+    {label: 'Wood', value: 'wood'},
+    {label: 'Steel', value: 'steel'},
+    {label: 'Glass', value: 'glass'},
+    {label: 'Bricks', value: 'bricks'},
   ],
 };
 
@@ -201,24 +200,27 @@ export default class NewOrderScreen extends React.Component {
               inputStyle={styles.input}
               onChangeText={this.onChangeCompanyName}
             />
-            <DropDownPicker
-              style={styles.dropDownStyle}
-              textStyle={styles.dropDownText}
-              labelStyle={styles.dropDownLabel}
-              open={open}
-              value={this.state.material}
-              items={items}
-              setOpen={this.setOpen}
-              setValue={this.onChangeMaterial}
-              setItems={this.setItems}
-            />
-            <Input
-              value={this.state.quantity}
-              placeholder={'Enter the Quantity'}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.input}
-              onChangeText={this.onChangeQuantity}
-            />
+            <View style={styles.addItems}>
+              {/* <DropDownPicker
+                style={styles.dropDownStyle}
+                textStyle={styles.dropDownText}
+                labelStyle={styles.dropDownLabel}
+                open={open}
+                value={this.state.material}
+                items={items}
+                setOpen={this.setOpen}
+                setValue={this.onChangeMaterial}
+                setItems={this.setItems}
+              /> */}
+              <Input
+                style={styles.quantity}
+                value={this.state.quantity}
+                placeholder={'Enter the Quantity'}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.input}
+                onChangeText={this.onChangeQuantity}
+              />
+            </View>
             <Input
               value={this.state.address}
               placeholder={'Enter the delevery Address'}
@@ -226,18 +228,6 @@ export default class NewOrderScreen extends React.Component {
               inputStyle={styles.input}
               onChangeText={this.onChangeAddress}
             />
-            <View>
-              <Text>Total</Text>
-              <Text onChangeText={this.onChangeTotal} value={this.state.total}>
-                {this.state.total}
-              </Text>
-              <TouchableOpacity
-                onPress={this.calculator}
-                style={styles.btn}
-                activeOpacity={0.5}>
-                <Text style={styles.btnTxt}>Calculate Total</Text>
-              </TouchableOpacity>
-            </View>
 
             <View style={styles.column}>
               <TouchableOpacity
@@ -273,8 +263,11 @@ const styles = StyleSheet.create({
     margin: 5,
     marginTop: 10,
     padding: 20,
-    borderRadius: 15,
+    // borderRadius: 15,
     elevation: 5,
+  },
+  quantity: {
+    width: 20,
   },
   label: {
     fontWeight: 'normal',
@@ -295,6 +288,7 @@ const styles = StyleSheet.create({
   dropDownStyle: {
     borderColor: 'gray',
     marginBottom: 20,
+    width: 100,
   },
   dropDownText: {
     fontSize: 15,
@@ -319,5 +313,10 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 16,
     textAlign: 'center',
+  },
+  addItems: {
+    flex: 0.5,
+    flexDirection: 'row',
+    backgroundColor: '#808080',
   },
 });
