@@ -8,40 +8,46 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  Image,
 } from 'react-native';
 import {Colors, Strings} from '../../constants';
 
-const initialState = {
-  quotations: [],
-};
-
-export default class AllQuotationsScreen extends React.Component {
+export default class AllOrdersScreen extends React.Component {
   static navigationOptions = {
-    title: 'Quotations',
+    title: 'Orders',
   };
 
   constructor(props) {
     super(props);
-    this.state = initialState;
-    this.getQuotations = this.getQuotations.bind(this);
+    this.state = {
+      data: '',
+      orders: [],
+      name: '',
+      orderId: '',
+    };
+    this.getOrders = this.getOrders.bind(this);
   }
 
   componentDidMount = () => {
-    this.getQuotations();
+    this.getOrders();
   };
 
-  /**
-   * @description This method get quotations by user id
-   * @memberof AllQuotationsScreen
-   */
-  getQuotations = () => {
-    var url = 'http://10.0.2.2:8080/quotation';
+  getOrders = () => {
+    const {navigation} = this.props;
+    const name = navigation.getParam('name');
+    this.setState({
+      name: name,
+    });
+
+    var url = `http://10.0.2.2:8080/supplierAdd/${name}`;
     axios
       .get(url)
       .then(response => {
-        this.setState({quotations: response.data.data});
+        console.log(response.data.data);
+        this.setState({orders: response.data.data});
       })
       .catch(error => {
+        console.log(error);
         alert(error.message);
       });
   };
@@ -50,9 +56,16 @@ export default class AllQuotationsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.headerTxt}>Orders</Text>
+            <Image
+              style={{width: 60, height: 60, marginLeft: 130, marginTop: 15}}
+              source={require('../../../images/status.png')}
+            />
+          </View>
           <FlatList
             style={styles.notificationList}
-            data={this.state.quotations}
+            data={this.state.orders}
             keyExtractor={item => {
               return item.id;
             }}
@@ -60,38 +73,20 @@ export default class AllQuotationsScreen extends React.Component {
               return (
                 <View style={styles.card}>
                   <Text style={[styles.btnTxt, styles.title]}>
-                    Quotation Details
+                    Recieved Orders
                   </Text>
                   {/* Row */}
                   <View style={styles.cardRow}>
                     {/* Column */}
                     <View style={styles.cardColumn}>
-                      <Text style={[styles.txt, {width: 200}]}>
-                        Quotation ID
-                      </Text>
-                      <Text style={styles.txt}>Order ID</Text>
-                      {/* <Text style={styles.txt}>Estimated Amount</Text> */}
-                      <Text style={styles.txt}>Date From</Text>
-                      <Text style={styles.txt}>Date To</Text>
-                      <Text style={styles.txt}>Material</Text>
-                      <Text style={styles.txt}>Quantity</Text>
+                      <Text style={styles.txt}>Order Id</Text>
+                      <Text style={styles.txt}>Supplier Name</Text>
                     </View>
-                    {/* Column */}
                     <View style={styles.cardColumn}>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
                       <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      <Text style={[styles.txt, {textAlign: 'center'}]}>:</Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'center' }]}>:</Text> */}
                     </View>
-                    {/* Column */}
                     <View style={styles.cardColumn}>
-                      <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        #{item.quotationId}
-                      </Text>
                       <Text
                         style={[
                           styles.txt,
@@ -105,32 +100,23 @@ export default class AllQuotationsScreen extends React.Component {
                         ]}>
                         #{item.orderId}
                       </Text>
-                      {/* <Text style={[styles.txt, { textAlign: 'left' }]}>{item.estimatedAmount}</Text> */}
-                      <Text
-                        style={[styles.txt, {textAlign: 'left', width: 200}]}>
-                        {item.dateFrom}
-                      </Text>
-                      <Text
-                        style={[styles.txt, {textAlign: 'left', width: 200}]}>
-                        {item.dateTo}
-                      </Text>
                       <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        {item.material}
+                        {item.supplierName}
                       </Text>
-                      <Text style={[styles.txt, {textAlign: 'left'}]}>
-                        {item.quantity}
-                      </Text>
+                      <TouchableOpacity
+                        style={styles.Invoicebtn}
+                        onPress={() =>
+                          this.props.navigation.navigate(
+                            Strings.screens.NewInvoiceScreen,
+                            {
+                              orderId: item.orderId,
+                            },
+                          )
+                        }>
+                        <Text>Create Invoice</Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate(
-                        Strings.screens.NewInvoiceScreen,
-                        {order_id: item},
-                      )
-                    }>
-                    <Text style={styles.invoice}>Create Invoice</Text>
-                  </TouchableOpacity>
                 </View>
               );
             }}
@@ -161,17 +147,20 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: 320,
-    backgroundColor: Colors.white,
+    backgroundColor: '#F5F5F5',
     margin: 10,
     padding: 20,
     borderRadius: 15,
     elevation: 5,
+    // borderWidth: 1,
+    // borderColor: '#3F5E98',
   },
   cardRow: {
     flex: 1,
     flexDirection: 'row',
     padding: 5,
     marginTop: 20,
+    // borderWidth: 2
   },
   cardColumn: {
     flex: 1,
@@ -183,20 +172,74 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     padding: 5,
   },
-  invoice: {
-    alignSelf: 'center',
-    width: 150,
-    color: Colors.black,
+  decline: {
+    width: 100,
+    color: Colors.white,
     fontSize: 15,
     textAlign: 'center',
     padding: 5,
-    backgroundColor: Colors.yellow,
-    borderRadius: 10,
-    elevation: 2,
+    margin: 5,
+    backgroundColor: '#D41930',
+    borderRadius: 20,
+  },
+  approve: {
+    width: 100,
+    color: Colors.white,
+    fontSize: 15,
+    textAlign: 'center',
+    padding: 5,
+    margin: 5,
+    backgroundColor: '#28A745',
+    borderRadius: 20,
+  },
+  pending: {
+    width: 100,
+    color: Colors.white,
+    fontSize: 14,
+    textAlign: 'center',
+    padding: 5,
+    margin: 5,
+    marginBottom: 5,
+    backgroundColor: '#D4890E',
+    borderRadius: 20,
+  },
+  btn: {
+    elevation: 5,
+    margin: 10,
+    padding: 3,
+    width: 160,
+    marginRight: 5,
+    backgroundColor: '#01949A',
+    borderRadius: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  Invoicebtn: {
+    marginTop: 30,
+    marginRight: 50,
+    elevation: 5,
+    margin: 10,
+    padding: 3,
+    width: 160,
+    height: 30,
+    backgroundColor: '#01949A',
+    borderRadius: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   btnTxt: {
     color: 'white',
     fontSize: 15,
     textAlign: 'center',
+  },
+  header: {
+    marginLeft: 30,
+    flex: 1,
+    flexDirection: 'row',
+  },
+  headerTxt: {
+    marginTop: 30,
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });

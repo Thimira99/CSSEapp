@@ -14,6 +14,7 @@ export default class SupplierDashboardScreen extends React.Component {
     super(props);
     this.state = {
       data: '',
+      name: '',
     };
     this.getDetails = this.getDetails.bind(this);
   }
@@ -24,51 +25,74 @@ export default class SupplierDashboardScreen extends React.Component {
 
   getDetails = () => {
     const {navigation} = this.props;
-    const param = navigation.getParam('item');
+    const param = navigation.getParam('userId');
+    const name = navigation.getParam('name');
     this.setState({
       data: param,
+      name: name,
     });
   };
 
   render() {
     return (
       <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <Image
+            style={{width: 70, height: 70, marginTop: 45, marginRight: 10}}
+            source={require('../../../images/user.png')}
+          />
+          <Text
+            style={[
+              styles.btnTxt,
+              {
+                color: '#000000',
+                marginTop: 60,
+                fontSize: 26,
+                fontWeight: 'bold',
+              },
+            ]}>
+            Hi,
+          </Text>
+          <Text
+            style={[
+              styles.btnTxt,
+              {
+                color: '#000000',
+                marginBottom: 30,
+                marginTop: 60,
+                fontSize: 26,
+                fontWeight: 'bold',
+              },
+            ]}>
+            {this.state.name}
+          </Text>
+        </View>
         <View style={styles.imageContainer}>
           <Image
-            style={styles.backImage}
+            style={{width: 300, height: 200, marginLeft: 45, marginBottom: 10}}
             source={require('../../../images/dashboard.png')}
           />
         </View>
-        <Text
-          style={[
-            styles.btnTxt,
-            {
-              color: '#0C1446',
-              marginTop: -90,
-              marginBottom: 40,
-              fontSize: 26,
-              fontWeight: 'bold',
-            },
-          ]}>
-          Supplier Dashboard
-        </Text>
+        <View style={styles.orderC}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate(Strings.screens.AllOrders, {
+                name: this.state.name,
+              })
+            }
+            style={styles.btn}
+            activeOpacity={0.5}>
+            <Image
+              style={{width: 70, height: 70}}
+              source={require('../../../images/parcel.png')}
+            />
+            <Text style={styles.btnTxt}>All Orders</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.row}>
-          <View style={styles.column}>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate(
-                  Strings.screens.AllQuotationsScreen,
-                )
-              }
-              style={styles.btn}
-              activeOpacity={0.5}>
-              <Image
-                style={{width: 70, height: 70}}
-                source={require('../../../images/invoices.png')}
-              />
-              <Text style={styles.btnTxt}>Quotations</Text>
-            </TouchableOpacity>
-          </View>
           <View style={styles.column}>
             <TouchableOpacity
               onPress={() =>
@@ -83,22 +107,6 @@ export default class SupplierDashboardScreen extends React.Component {
                 source={require('../../../images/quotations.png')}
               />
               <Text style={styles.btnTxt}>Invoices</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column}>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate(Strings.screens.PaymentScreen)
-              }
-              style={styles.btn}
-              activeOpacity={0.5}>
-              <Image
-                style={{width: 70, height: 70}}
-                source={require('../../../images/pay.png')}
-              />
-              <Text style={styles.btnTxt}>Payment</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.column}>
@@ -139,6 +147,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   column: {
+    marginTop: -80,
+    flex: 1,
+    flexDirection: 'column',
+    alignContent: 'center',
+  },
+  orderC: {
     flex: 1,
     flexDirection: 'column',
     alignContent: 'center',
@@ -150,14 +164,14 @@ const styles = StyleSheet.create({
     width: 150,
     height: 120,
     marginRight: 5,
-    backgroundColor: Colors.darkPurple,
+    backgroundColor: Colors.white,
     borderRadius: 20,
     alignSelf: 'center',
     alignItems: 'center',
   },
   btnTxt: {
     padding: 5,
-    color: 'white',
+    color: 'black',
     fontSize: 18,
     textAlign: 'center',
   },

@@ -7,6 +7,7 @@ module.exports = function () {
 	router.get('/', orderController.getAllOrders);
 	router.get('/getOrders/:id', orderController.getOrders);
 	router.get('/getApproved', orderController.getAllApprovedOrders);
+	router.get('/getSupplier/:id', orderController.getSupplierOrder);
 
 	return router;
 };

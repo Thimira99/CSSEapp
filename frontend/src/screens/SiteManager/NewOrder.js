@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   btn: {
-    marginTop: 60,
+    marginTop: 20,
     elevation: 2,
     margin: 10,
     padding: 3,

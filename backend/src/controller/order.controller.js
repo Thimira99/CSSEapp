@@ -51,9 +51,24 @@ const getOrders = async (req, res) => {
 	}
 };
 
+//getSupplierOrder
+const getSupplierOrder = async (req, res) => {
+	console.log(req.params.id);
+	if (req.params.id) {
+		await Order.find({ orderId: req.params.id })
+			.then((data) => {
+				res.status(200).send({ data: data });
+			})
+			.catch((error) => {
+				res.status(500).send({ error: error.message });
+			});
+	}
+};
+
 module.exports = {
 	createOrder,
 	getAllOrders,
 	getOrders,
 	getAllApprovedOrders,
+	getSupplierOrder,
 };

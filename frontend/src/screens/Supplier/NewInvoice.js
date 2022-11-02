@@ -29,13 +29,19 @@ export default class NewInvoiceScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = initialState;
+
+    this.state = {
+      orders: [],
+      initialState,
+    };
+
     this.onChangeOrderId = this.onChangeOrderId.bind(this);
     this.onChangeMaterial = this.onChangeMaterial.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     this.onChangeUnitCost = this.onChangeUnitCost.bind(this);
     this.onChangeTotalCost = this.onChangeTotalCost.bind(this);
     this.addInvoice = this.addInvoice.bind(this);
+    this.getOrders = this.getOrders.bind(this);
   }
 
   componentDidMount = () => {
@@ -95,6 +101,31 @@ export default class NewInvoiceScreen extends React.Component {
    */
   onChangeTotalCost = e => {
     this.setState({totalPrice: e});
+  };
+
+  componentDidMount = () => {
+    this.getOrders();
+  };
+
+  getOrders = () => {
+    const {navigation} = this.props;
+    const orderId = navigation.getParam('orderId');
+    console.log(orderId);
+    this.setState({
+      orderId: orderId,
+    });
+
+    var url = `http://10.0.2.2:8080/order/getSupplier/${orderId}`;
+    axios
+      .get(url)
+      .then(response => {
+        console.log(response.data.data);
+        this.setState({orders: response.data.data});
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error.message);
+      });
   };
 
   /**

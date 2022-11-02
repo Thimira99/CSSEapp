@@ -34,8 +34,6 @@ export default class SiteDashboardScreen extends React.Component {
   };
 
   render() {
-    console.log('sjnvk', this.state.data);
-    console.log('sjnvk', this.state.name);
     return (
       <View style={styles.container}>
         <View

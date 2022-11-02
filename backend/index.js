@@ -22,18 +22,16 @@ app.route('/').get((req, res) => {
 //import routes
 const userAPI = require('./src/api/user.api');
 const orderAPI = require('./src/api/order.api');
-const quotationAPI = require('./src/api/quotation.api');
 const invoiceAPI = require('./src/api/invoice.api');
 const deliveryAPI = require('./src/api/delivery.api');
-const paymentAPI = require('./src/api/payment.api');
+const addSupplier = require('./src/api/orderSupplier');
 
 // Define routes
 app.use('/user', userAPI());
 app.use('/order', orderAPI());
-app.use('/quotation', quotationAPI());
 app.use('/invoice', invoiceAPI());
 app.use('/delivery', deliveryAPI());
-app.use('/payment', paymentAPI());
+app.use('/supplierAdd', addSupplier());
 
 // Start listening to the server
 const PORT = process.env.PORT || 8080;
