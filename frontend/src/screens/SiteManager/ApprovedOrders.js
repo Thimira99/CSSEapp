@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Colors, Strings} from '../../constants';
 
-export default class AllOrdersScreen extends React.Component {
+export default class ApprovedOrders extends React.Component {
   static navigationOptions = {
     title: 'Orders',
   };
@@ -31,7 +31,7 @@ export default class AllOrdersScreen extends React.Component {
   };
 
   getOrders = () => {
-    var url = `http://10.0.2.2:8080/order/`;
+    var url = `http://10.0.2.2:8080/order/getApproved`;
     axios
       .get(url)
       .then(response => {
@@ -45,13 +45,11 @@ export default class AllOrdersScreen extends React.Component {
   };
 
   render() {
-    console.log('orders', this.state.orders);
-    console.log('user id', this.state.data);
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.header}>
-            <Text style={styles.headerTxt}>Order Status</Text>
+            <Text style={styles.headerTxt}>Approved Orders</Text>
             <Image
               style={{width: 60, height: 60, marginLeft: 68, marginTop: 15}}
               source={require('../../../images/status.png')}

@@ -125,9 +125,7 @@ export default class SiteDashboardScreen extends React.Component {
           <View style={styles.column}>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate(
-                  Strings.screens.AllDeliveryScreen,
-                )
+                this.props.navigation.navigate(Strings.screens.ApprovedOrders)
               }
               style={styles.Dbtn}
               activeOpacity={0.5}>

@@ -19,6 +19,7 @@ import NewInvoiceScreen from './src/screens/Supplier/NewInvoice';
 import NewPaymentScreen from './src/screens/SiteManager/NewPayment';
 import NewDeliveryScreen from './src/screens/Supplier/NewDelivery';
 import PaymentScreen from './src/screens/Supplier/Payment';
+import ApprovedOrders from './src/screens/SiteManager/ApprovedOrders';
 import DeliveryScreen from './src/screens/Supplier/AllDelivery';
 import {black, white} from './src/constants/colors';
 
@@ -55,6 +56,7 @@ const AppNavigator = createStackNavigator(
     AllOrdersScreen: {screen: AllOrdersScreen},
     NewPaymentScreen: {screen: NewPaymentScreen},
     AllDeliveryScreen: {screen: AllDeliveryScreen},
+    ApprovedOrders: {screen: ApprovedOrders},
     // Supplier Screens
     SupplierDashboardScreen: {screen: SupplierDashboardScreen},
     AllQuotationsScreen: {screen: AllQuotationsScreen},

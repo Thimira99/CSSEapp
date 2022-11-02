@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+import axios from 'axios';
 import React from 'react';
 import {
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Input} from 'react-native-elements';
@@ -18,17 +19,10 @@ const initialState = {
   siteLocation: '',
   address: '',
   companyName: '',
-  material: null,
-  deadline: '',
   status: false,
   open: false,
   value: null,
-  itemObj: [
-    {
-      material: '',
-      quantity: '',
-    },
-  ],
+  itemObj: [],
   items: [
     {label: 'Cement', value: 'cement'},
     {label: 'Timber', value: 'timber'},
@@ -63,10 +57,6 @@ export default class NewOrderScreen extends React.Component {
     this.getDetails();
   };
 
-  /**
-   * @description This method gets the details
-   * @memberof NewOrderScreen
-   */
   getDetails = () => {
     const {navigation} = this.props;
     const param = navigation.getParam('user_details');
@@ -75,60 +65,30 @@ export default class NewOrderScreen extends React.Component {
     });
   };
 
-  /**
-   * @description This method set the items for dropdown
-   * @param {Function} callback
-   * @memberof NewOrderScreen
-   */
   setItems(callback) {
     this.setState(state => ({
       items: callback(state.items),
     }));
   }
 
-  /**
-   * @description This method opens the dropdown
-   * @param {Function} open
-   * @memberof NewOrderScreen
-   */
   setOpen(open) {
     this.setState({open});
   }
 
-  /**
-   * @description This method changes the value of material
-   * @param {Function} callback
-   * @memberof NewOrderScreen
-   */
   onChangeMaterial(callback) {
     this.setState(state => ({
       material: callback(state.material),
     }));
   }
 
-  /**
-   * @description This method changes the value of orderId
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
   onChangeOrderId = e => {
     this.setState({orderId: e});
   };
 
-  /**
-   * @description This method changes the value of siteName
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
   onChangeSiteName = e => {
     this.setState({siteName: e});
   };
 
-  /**
-   * @description This method changes the value of siteLocation
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
   onChangeSiteLocation = e => {
     this.setState({siteLocation: e});
   };
@@ -144,55 +104,67 @@ export default class NewOrderScreen extends React.Component {
   onChangeAddress = e => {
     this.setState({address: e});
   };
-  /**
-   * @description This method changes the value of quantity
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
+
   onChangeQuantity = e => {
     this.setState({quantity: e});
   };
 
-  /**
-   * @description This method changes the value of deadline
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
   onChangeDeadline = e => {
     this.setState({deadline: e});
   };
 
   addItems = (quantity, item) => {
-    console.log('aaaaaaaaaaaa' + quantity, item);
-  };
-
-  /**
-   * @description This method pass the details and navigate to the summary screen
-   * @param {Object} e
-   * @memberof NewOrderScreen
-   */
-  viewSummary = () => {
-    const orderDetails = {
-      userId: this.state.data,
-      orderId: this.state.orderId,
-      material: this.state.material,
-      quantity: this.state.quantity,
-      address: this.state.address,
-      companyName: this.state.companyName,
-      total: this.state.total,
-      status: 'Pending',
+    const itemm = {
+      quantity: quantity,
+      material: item,
     };
-    console.log('order details', orderDetails);
-    this.props.navigation.navigate(Strings.screens.OrderSummaryScreen, {
-      order_details: orderDetails,
+
+    const {itemObj} = this.state;
+    itemObj.push(itemm);
+
+    this.setState({itemObj}, () => {
+      console.log(this.state.itemObj);
     });
   };
 
+  submit = () => {
+    const orderDetails = {
+      userId: this.state.data,
+      orderId: this.state.orderId,
+      address: this.state.address,
+      companyName: this.state.companyName,
+      status: 'Pending',
+    };
+
+    const data = {
+      userId: this.state.data,
+      item: this.state.itemObj,
+      companyName: this.state.companyName,
+      address: this.state.address,
+      orderId: this.state.orderId,
+      status: 'pending',
+    };
+
+    const URL = 'http://10.0.2.2:8080/order/createOrder';
+
+    axios.post(URL, data).then(res => {
+      console.log(res.data);
+    });
+
+    this.props.navigation.navigate(Strings.screens.AllOrdersScreen);
+  };
+
   render() {
-    console.log('jdnjd', this.state.data);
     const {open, items} = this.state;
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTxt}>Place New Order</Text>
+          <Image
+            style={{width: 60, height: 60, marginLeft: 68, marginTop: 15}}
+            source={require('../../../images/parcel.png')}
+          />
+        </View>
         <View style={styles.form}>
           <ScrollView>
             <Input
@@ -227,8 +199,20 @@ export default class NewOrderScreen extends React.Component {
               inputStyle={styles.input}
               onChangeText={this.onChangeQuantity}
             />
+            {this.state.itemObj.map(value => (
+              <View style={styles.detailsList}>
+                <Text style={{marginLeft: 10, fontSize: 20}}>
+                  {value.material}
+                </Text>
+                <Text style={{marginLeft: 210, fontSize: 20}}>
+                  {value.quantity}
+                </Text>
+              </View>
+            ))}
             <TouchableOpacity
-              onPress={this.addItems(this.state.quantity, this.state.material)}
+              onPress={() =>
+                this.addItems(this.state.quantity, this.state.material)
+              }
               style={styles.btn}
               activeOpacity={0.5}>
               <Text style={styles.btnTxt}>Add Item</Text>
@@ -243,7 +227,7 @@ export default class NewOrderScreen extends React.Component {
 
             <View style={styles.column}>
               <TouchableOpacity
-                onPress={this.viewSummary}
+                onPress={this.submit}
                 style={styles.btn}
                 activeOpacity={0.5}>
                 <Text style={styles.btnTxt}>Confirm Order</Text>
@@ -268,12 +252,13 @@ const styles = StyleSheet.create({
     height: 100,
   },
   form: {
+    borderRadius: 10,
     flex: 0.9,
     flexDirection: 'row',
+    marginTop: -500,
     width: 350,
     backgroundColor: Colors.white,
     margin: 5,
-    marginTop: 10,
     padding: 20,
     // borderRadius: 15,
     elevation: 5,
@@ -306,16 +291,18 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   btn: {
+    marginTop: 60,
     elevation: 2,
     margin: 10,
     padding: 3,
     width: 160,
     marginRight: 5,
-    backgroundColor: Colors.yellow,
+    backgroundColor: '#F1C40F',
     borderRadius: 20,
     alignSelf: 'center',
     alignItems: 'center',
   },
+
   btnTxt: {
     padding: 5,
     color: Colors.black,
@@ -326,5 +313,19 @@ const styles = StyleSheet.create({
     flex: 0.5,
     flexDirection: 'row',
     backgroundColor: '#808080',
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  headerTxt: {
+    marginTop: 30,
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  detailsList: {
+    backgroundColor: '#c7c5c5',
+    flex: 1,
+    flexDirection: 'row',
   },
 });

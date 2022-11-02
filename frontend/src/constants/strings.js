@@ -31,6 +31,7 @@ export const screens = {
   NewDeliveryScreen: 'NewDeliveryScreen',
   PaymentScreen: 'PaymentScreen',
   DeliveryScreen: 'DeliveryScreen',
+  ApprovedOrders: 'ApprovedOrders',
 };
 
 // Alert box texts

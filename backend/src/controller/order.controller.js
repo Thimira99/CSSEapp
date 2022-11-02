@@ -26,6 +26,17 @@ const getAllOrders = async (req, res) => {
 		});
 };
 
+// Get all orders
+const getAllApprovedOrders = async (req, res) => {
+	await Order.find({ status: 'approved' })
+		.then((data) => {
+			res.status(200).send({ data: data });
+		})
+		.catch((error) => {
+			res.status(500).send({ error: error.message });
+		});
+};
+
 // Get orders by user id
 const getOrders = async (req, res) => {
 	console.log(req.params.id);
@@ -44,4 +55,5 @@ module.exports = {
 	createOrder,
 	getAllOrders,
 	getOrders,
+	getAllApprovedOrders,
 };
