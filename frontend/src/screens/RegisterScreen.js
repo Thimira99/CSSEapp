@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {Strings, Colors} from '../constants';
 import {black} from '../constants/colors';
+import {Toast} from 'toastify-react-native';
 
 export default class RegisterScreen extends React.Component {
   static navigationOptions = {
@@ -39,59 +40,37 @@ export default class RegisterScreen extends React.Component {
     this.createUser = this.createUser.bind(this);
   }
 
-  /**
-   * @description This method changes the value of userId
-   * @param {object} e
-   * @memberof RegisterScreen
-   */
+  // onChange UserId
   onChangeUserId = e => {
     this.setState({userId: e});
   };
 
-  /**
-   * @description This method changes the value of name
-   * @param {object} e
-   * @memberof RegisterScreen
-   */
+  // onChange Name
   onChangeName = e => {
     this.setState({name: e});
   };
 
-  /**
-   * @description This method changes the value of email
-   * @param {object} e
-   * @memberof RegisterScreen
-   */
+  // onChange Email
   onChangeEmail = e => {
     this.setState({email: e});
   };
 
-  /**
-   * @description This method changes the value of password
-   * @param {object} e
-   * @memberof RegisterScreen
-   */
+  // onChange Password
   onChangePassword = e => {
     this.setState({password: e});
   };
 
+  // onChange ContactNumber
   onChangeContactNumber = e => {
     this.setState({contactNumber: e});
   };
 
-  /**
-   * @description This method changes the value of role
-   * @param {object} e
-   * @memberof RegisterScreen
-   */
+  // onChange Role
   onChangeRole = e => {
     this.setState({role: e});
   };
 
-  /**
-   * @description This method creates a new user
-   * @memberof RegisterScreen
-   */
+  //create USer
   createUser() {
     var url = 'http://10.0.2.2:8080/user/createUser';
     var data = {
@@ -122,25 +101,11 @@ export default class RegisterScreen extends React.Component {
             user_details: this.state.userId,
           });
         }
-        Alert.alert(
-          'Success ✔',
-          'You have been registered successfully!!',
-          [
-            {
-              text: 'OK',
-              onPress: () => this.props.navigation.navigate('LogInScreen'),
-            },
-          ],
-          {cancelable: false},
-        );
+        Toast.info('Successfully Registered');
       })
       .catch(error => {
         console.log(error);
-        Alert.alert(
-          'You have been registered unsuccessfully!!',
-          [{text: 'Check Again?'}],
-          {cancelable: false},
-        );
+        Toast.error(error);
       });
   }
 
@@ -174,7 +139,6 @@ export default class RegisterScreen extends React.Component {
                 onChangeText={this.onChangeUserId}
               />
             </View>
-            {/* User Name Text Input */}
             <View style={styles.inputView}>
               <TextInput
                 value={this.state.name}
@@ -184,7 +148,6 @@ export default class RegisterScreen extends React.Component {
                 onChangeText={this.onChangeName}
               />
             </View>
-            {/* User Email Text Input */}
             <View style={styles.inputView}>
               <TextInput
                 value={this.state.email}
@@ -194,7 +157,6 @@ export default class RegisterScreen extends React.Component {
                 onChangeText={this.onChangeEmail}
               />
             </View>
-            {/* Password Text Input */}
             <View style={styles.inputView}>
               <TextInput
                 value={this.state.password}
@@ -215,7 +177,6 @@ export default class RegisterScreen extends React.Component {
                 onChangeText={this.onChangeContactNumber}
               />
             </View>
-            {/* User Role Text Input */}
             <View style={styles.inputView}>
               <TextInput
                 value={this.state.role}
@@ -226,7 +187,6 @@ export default class RegisterScreen extends React.Component {
               />
             </View>
           </View>
-          {/* Register Button */}
           <TouchableOpacity
             onPress={this.createUser}
             style={styles.registerBtn}>

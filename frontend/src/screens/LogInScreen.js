@@ -31,53 +31,32 @@ export default class LogInScreen extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
-  /**
-   * @description This method changes the value of name
-   * @param {object} e
-   * @memberof LogInScreen
-   */
+  //onchange Name
   onChangeName = e => {
     this.setState({name: e});
   };
 
-  /**
-   * @description This method changes the value of userId
-   * @param {object} e
-   * @memberof LogInScreen
-   */
+  // onChange UserId
   onChangeUserId = e => {
     this.setState({userId: e});
   };
 
-  /**
-   * @description This method changes the value of email
-   * @param {object} e
-   * @memberof LogInScreen
-   */
+  // onChange Email
   onChangeEmail = e => {
     this.setState({email: e});
   };
 
-  /**
-   * @description This method changes the value of password
-   * @param {object} e
-   * @memberof LogInScreen
-   */
+  // onChange password
   onChangePassword = e => {
     this.setState({password: e});
   };
 
-  /**
-   * @description This method changes the value of name
-   * @param {object} e
-   * @memberof LogInScreen
-   */
+  //validation
   validate() {
     var url = `http://10.0.2.2:8080/user/userById/${this.state.email}`;
     axios
       .get(url)
       .then(response => {
-        //display details
         console.log(response.data.data[0].userId);
         this.setState({loginDetails: response.data.data[0]});
 

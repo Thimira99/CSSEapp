@@ -24,14 +24,12 @@ export default class AllInvoicesScreen extends React.Component {
     this.getInvoices = this.getInvoices.bind(this);
   }
 
+  //componentDidMount
   componentDidMount = () => {
     this.getInvoices();
   };
 
-  /**
-   * @description This method get invoices by user id
-   * @memberof AllInvoicesScreen
-   */
+  //get all invoices
   getInvoices = () => {
     var url = 'http://10.0.2.2:8080/invoice/';
     axios
@@ -155,7 +153,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     marginTop: 20,
-    // borderWidth: 2
   },
   cardColumn: {
     flex: 1,
@@ -203,12 +200,9 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 3,
     width: 160,
-    // height: 120,
     marginRight: 5,
-    // height: 60
     backgroundColor: '#01949A',
     borderRadius: 20,
-    // justifyContent:'center',
     alignSelf: 'center',
     alignItems: 'center',
   },
@@ -225,11 +219,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnTxt: {
-    // padding: 5,
     color: 'white',
     fontSize: 15,
-    // lineHeight: 60,
-    // borderWidth: 2,
     textAlign: 'center',
   },
 });

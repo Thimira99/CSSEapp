@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Input} from 'react-native-elements';
+import {Toast} from 'toastify-react-native';
 import {Colors, Strings} from '../../constants';
 
 const initialState = {
@@ -46,17 +47,16 @@ export default class NewOrderScreen extends React.Component {
     this.setOpen = this.setOpen.bind(this);
     this.setItems = this.setItems.bind(this);
     this.onChangeOrderId = this.onChangeOrderId.bind(this);
-    this.onChangeSiteName = this.onChangeSiteName.bind(this);
-    this.onChangeSiteLocation = this.onChangeSiteLocation.bind(this);
     this.onChangeMaterial = this.onChangeMaterial.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
-    this.onChangeDeadline = this.onChangeDeadline.bind(this);
   }
 
+  //componentDidMount
   componentDidMount = () => {
     this.getDetails();
   };
 
+  //get details
   getDetails = () => {
     const {navigation} = this.props;
     const param = navigation.getParam('user_details');
@@ -65,54 +65,46 @@ export default class NewOrderScreen extends React.Component {
     });
   };
 
+  //set item method
   setItems(callback) {
     this.setState(state => ({
       items: callback(state.items),
     }));
   }
 
+  //set open method
   setOpen(open) {
     this.setState({open});
   }
 
+  //onchange material
   onChangeMaterial(callback) {
     this.setState(state => ({
       material: callback(state.material),
     }));
   }
 
+  //onchange order Id
   onChangeOrderId = e => {
     this.setState({orderId: e});
   };
 
-  onChangeSiteName = e => {
-    this.setState({siteName: e});
-  };
-
-  onChangeSiteLocation = e => {
-    this.setState({siteLocation: e});
-  };
-
+  //onchange company name
   onChangeCompanyName = e => {
     this.setState({companyName: e});
   };
 
-  onChangeTotal = e => {
-    this.setState({total: e});
-  };
-
+  //onchange address
   onChangeAddress = e => {
     this.setState({address: e});
   };
 
+  //onchange quantity
   onChangeQuantity = e => {
     this.setState({quantity: e});
   };
 
-  onChangeDeadline = e => {
-    this.setState({deadline: e});
-  };
-
+  //add items method
   addItems = (quantity, item) => {
     const itemm = {
       quantity: quantity,
@@ -127,6 +119,7 @@ export default class NewOrderScreen extends React.Component {
     });
   };
 
+  //submit form
   submit = () => {
     const orderDetails = {
       userId: this.state.data,
@@ -147,10 +140,17 @@ export default class NewOrderScreen extends React.Component {
 
     const URL = 'http://10.0.2.2:8080/order/createOrder';
 
-    axios.post(URL, data).then(res => {
-      console.log(res.data);
-    });
+    axios
+      .post(URL, data)
+      .then(res => {
+        console.log(res.data);
+        Toast.info('Successfully added');
+      })
+      .catch(err => {
+        Toast.info(err);
+      });
 
+    //navigate to all order list page
     this.props.navigation.navigate(Strings.screens.AllOrdersScreen);
   };
 

@@ -26,10 +26,12 @@ export default class AllOrdersScreen extends React.Component {
     this.getOrders = this.getOrders.bind(this);
   }
 
+  //Get all orders
   componentDidMount = () => {
     this.getOrders();
   };
 
+  //get all orders implementation
   getOrders = () => {
     var url = `http://10.0.2.2:8080/order/`;
     axios
@@ -45,8 +47,6 @@ export default class AllOrdersScreen extends React.Component {
   };
 
   render() {
-    console.log('orders', this.state.orders);
-    console.log('user id', this.state.data);
     return (
       <View style={styles.container}>
         <ScrollView>

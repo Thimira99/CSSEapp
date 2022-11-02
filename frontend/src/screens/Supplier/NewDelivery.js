@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {Input} from 'react-native-elements';
+import {Toast} from 'toastify-react-native';
 import {Colors} from '../../constants';
 
 const initialState = {
@@ -38,55 +39,32 @@ export default class NewDeliveryScreen extends React.Component {
     this.addDelivery = this.addDelivery.bind(this);
   }
 
-  /**
-   * @description This method changes the value of deliveryId
-   * @param {Object} e
-   * @memberof NewDeliveryScreen
-   */
+  //onchange delovery ID
   onChangeDeliveryId = e => {
     this.setState({deliveryId: e});
   };
 
-  /**
-   * @description This method changes the value of orderId
-   * @param {Object} e
-   * @memberof NewDeliveryScreen
-   */
+  //onchange order ID
   onChangeOrderId = e => {
     this.setState({orderId: e});
   };
 
-  /**
-   * @description This method changes the value of deliveryPerson
-   * @param {Object} e
-   * @memberof NewDeliveryScreen
-   */
+  //onchange DeliveryPerson
   onChangeDeliveryPerson = e => {
     this.setState({deliveryPerson: e});
   };
 
-  /**
-   * @description This method changes the value of deliveryPhone
-   * @param {Object} e
-   * @memberof NewDeliveryScreen
-   */
+  //onchange Delivery Phonenumber
   onChangeDeliveryPhone = e => {
     this.setState({deliveryPhone: e});
   };
 
-  /**
-   * @description This method changes the value of deliveryPhone
-   * @param {Object} e
-   * @memberof NewDeliveryScreen
-   */
+  //onchange amount
   onChangeAmount = e => {
     this.setState({amount: e});
   };
 
-  /**
-   * @description This method creates delivery
-   * @memberof NewDeliveryScreen
-   */
+  //add delivery method
   addDelivery = () => {
     var url = 'http://10.0.2.2:8080/delivery/createDelivery';
     const deliveryDetails = {
@@ -104,33 +82,10 @@ export default class NewDeliveryScreen extends React.Component {
         this.setState({
           deliveryDetails: response.data,
         });
-        Alert.alert(
-          'Success ✔',
-          'Your delivery has been placed successfully!!',
-          [
-            {
-              text: 'OK',
-              onPress: () =>
-                this.props.navigation.navigate('SupplierDashboardScreen'),
-            },
-          ],
-          {cancelable: false},
-        );
+        Toast.info('Added Successfully');
       })
       .catch(error => {
-        console.log(error);
-        Alert.alert(
-          'Error ❌',
-          'Your delivery has been placed unsuccessfully!!',
-          [
-            {
-              text: 'Check Again?',
-              onPress: () =>
-                this.props.navigation.navigate('NewDeliveryScreen'),
-            },
-          ],
-          {cancelable: false},
-        );
+        Toast.error(error);
       });
   };
 
@@ -153,7 +108,6 @@ export default class NewDeliveryScreen extends React.Component {
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.input}
               onChangeText={this.onChangeDeliveryId}
-              // placeholder='Enter Site Name'
             />
             <Input
               value={this.state.orderId}
@@ -162,7 +116,6 @@ export default class NewDeliveryScreen extends React.Component {
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.input}
               onChangeText={this.onChangeOrderId}
-              // placeholder='Enter Site Name'
             />
             <Input
               value={this.state.deliveryPerson}

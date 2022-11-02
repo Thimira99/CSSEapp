@@ -26,10 +26,12 @@ export default class ApprovedOrders extends React.Component {
     this.getOrders = this.getOrders.bind(this);
   }
 
+  //componentDidMount
   componentDidMount = () => {
     this.getOrders();
   };
 
+  //get approved orders
   getOrders = () => {
     var url = `http://10.0.2.2:8080/order/getApproved`;
     axios
